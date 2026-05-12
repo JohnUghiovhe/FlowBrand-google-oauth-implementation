@@ -1,6 +1,5 @@
-import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger, Inject } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CustomHttpException } from '@shared/helpers/custom-http-filter';
 import { User } from '@modules/user/entities/user.entity';
@@ -13,7 +12,7 @@ export default class AuthenticationService {
   private readonly logger = new Logger(AuthenticationService.name);
 
   constructor(
-    @InjectRepository(User)
+    @Inject('UserRepository')
     private readonly userRepository: Repository<User>,
     private readonly sessionService: SessionService,
     private readonly redisService: RedisService,

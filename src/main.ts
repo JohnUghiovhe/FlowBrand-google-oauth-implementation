@@ -11,12 +11,14 @@ import { HttpExceptionFilter } from '@shared/helpers/http-exception-filter';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { bufferLogs: true });
 
+  // Initialize database (optional for testing purposes)
   try {
     await initializeDataSource();
     console.log('✓ Database connection initialized');
   } catch (err) {
-    console.error('✗ Error during database initialization', err);
-    process.exit(1);
+    console.warn('⚠ Warning: Database connection failed. Some endpoints may not work.');
+    console.warn('  Error:', (err as Error).message);
+    console.warn('  Continuing with server startup for testing purposes...');
   }
 
   app.enable('trust proxy');

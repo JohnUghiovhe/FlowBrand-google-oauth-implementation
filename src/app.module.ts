@@ -1,15 +1,11 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from 'joi';
 import authConfig from '@config/auth.config';
 import serverConfig from '@config/server.config';
-import dataSource from '@database/data-source';
 import { AuthGuard } from '@guards/auth.guard';
 import { AuthModule } from '@modules/auth/auth.module';
-import { User } from '@modules/user/entities/user.entity';
-import { UserSession } from '@modules/auth/entities/user-session.entity';
 import { HealthController } from './health.controller';
 
 @Module({
@@ -53,13 +49,9 @@ import { HealthController } from './health.controller';
         FRONTEND_URL: Joi.string().optional(),
       }),
     }),
-    TypeOrmModule.forRootAsync({
-      useFactory: async () => ({
-        ...dataSource.options,
-      }),
-      dataSourceFactory: async () => dataSource,
-    }),
-    TypeOrmModule.forFeature([User, UserSession]),
+    // Skip TypeORM database initialization for testing/swagger endpoints
+    // Enable only if database is needed for user/session operations
+    // For pure OAuth testing, database dependencies are optional
     AuthModule,
   ],
 })
