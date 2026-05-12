@@ -32,8 +32,10 @@ export class ResponseInterceptor implements NestInterceptor {
     }
 
     if (exception instanceof HttpException) return exception;
+    const errorMessage = exception instanceof Error ? exception.message : String(exception);
+    const errorStack = exception instanceof Error ? exception.stack ?? '' : '';
     this.logger.error(
-      `Error processing request for ${req.method} ${req.url}, Message: ${(exception as any)?.message ?? String(exception)}, Stack: ${(exception as any)?.stack ?? ''}`,
+      `Error processing request for ${req.method} ${req.url}, Message: ${errorMessage}, Stack: ${errorStack}`,
     );
     return new InternalServerErrorException({
       status_code: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -54,16 +56,16 @@ export class ResponseInterceptor implements NestInterceptor {
     response.setHeader('Content-Type', 'application/json');
 
     if (res && typeof res === 'object' && !Array.isArray(res)) {
-      const payload = res as Record<string, any>;
+      const payload = res as Record<string, unknown>;
       const { message, ...data } = payload;
       const req = ctx.getRequest();
 
       // Redact sensitive fields before logging
-      const safeData = { ...data } as Record<string, any>;
-      if (safeData && (safeData.access_token || safeData.refresh_token || safeData.token)) {
-        if (safeData.access_token) safeData.access_token = '[REDACTED]';
-        if (safeData.refresh_token) safeData.refresh_token = '[REDACTED]';
-        if (safeData.token) safeData.token = '[REDACTED]';
+      const safeData = { ...data } as Record<string, unknown>;
+      if ('access_token' in safeData || 'refresh_token' in safeData || 'token' in safeData) {
+        if (typeof safeData.access_token === 'string') safeData.access_token = '[REDACTED]';
+        if (typeof safeData.refresh_token === 'string') safeData.refresh_token = '[REDACTED]';
+        if (typeof safeData.token === 'string') safeData.token = '[REDACTED]';
       }
 
       this.logger.debug(`Response for ${req.method} ${req.url}: ${JSON.stringify({ message, ...safeData })}`);

@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { DataSource } from 'typeorm';
 import { AppModule } from './app.module';
 import { initializeDataSource } from '@database/index';
 import { ResponseInterceptor } from '@shared/interceptors/response.interceptor';
@@ -11,8 +10,6 @@ import { HttpExceptionFilter } from '@shared/helpers/http-exception-filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { bufferLogs: true });
-
-  const dataSource = app.get(DataSource);
 
   try {
     await initializeDataSource();

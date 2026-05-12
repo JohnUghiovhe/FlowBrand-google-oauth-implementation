@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Req, Get, UseGuards, Res } from '@nestjs/common';
+import { Controller, HttpStatus, Req, Get, UseGuards, Res } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
@@ -55,7 +55,7 @@ export default class RegistrationController {
     } catch (err: unknown) {
       const frontend = authConfig().frontendUrl || '';
       const isCustom = err instanceof CustomHttpException;
-      const safeMessage = isCustom ? (err as any).message : 'OAuth login failed';
+      const safeMessage = isCustom && err instanceof Error ? err.message : 'OAuth login failed';
 
       const errorParam = isCustom ? encodeURIComponent(String(safeMessage)) : 'oauth_failed';
       const errorTarget = frontend

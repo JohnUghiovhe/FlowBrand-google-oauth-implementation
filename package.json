@@ -13,7 +13,7 @@
     "dev": "PROFILE=local ts-node -r dotenv/config src/main",
     "lint": "eslint \"{src,config}/**/*.ts\" --fix",
     "format": "prettier --write \"{src,config}/**/*.ts\"",
-    "test": "jest --runInBand",
+    "test": "jest --config ./jest.config.js --runInBand",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "typeorm": "typeorm -d dist/src/database/data-source.js"
@@ -60,6 +60,7 @@
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
+    "globals": "^17.0.0",
     "jest": "^30.0.0",
     "prettier": "^3.4.2",
     "ts-jest": "^29.2.5",
@@ -67,31 +68,5 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node",
-    "moduleNameMapper": {
-      "^@config/(.*)$": "<rootDir>/../config/$1",
-      "^@database/(.*)$": "<rootDir>/database/$1",
-      "^@entities/(.*)$": "<rootDir>/entities/$1",
-      "^@guards/(.*)$": "<rootDir>/guards/$1",
-      "^@modules/(.*)$": "<rootDir>/modules/$1",
-      "^@shared/(.*)$": "<rootDir>/shared/$1",
-      "^@strategies/(.*)$": "<rootDir>/modules/strategies/$1"
-    }
   }
 }
