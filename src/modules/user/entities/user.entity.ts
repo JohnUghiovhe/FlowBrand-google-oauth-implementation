@@ -1,5 +1,5 @@
 import { Column, DeleteDateColumn, Entity, Index } from 'typeorm';
-import { AbstractBaseEntity } from '../../../entities/base.entity';
+import { AbstractBaseEntity } from '@entities/base.entity';
 
 @Entity({ name: 'users' })
 @Index('IDX_users_auth_provider_user', ['auth_provider', 'provider_user_id'], { unique: true })

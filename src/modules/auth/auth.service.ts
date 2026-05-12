@@ -4,9 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CustomHttpException } from '@shared/helpers/custom-http-filter';
 import { User } from '@modules/user/entities/user.entity';
-import { UserSession } from './entities/user-session.entity';
 import { GoogleOAuthProfile, OAuthLoginResponse } from './dto/google-oauth.dto';
-import { v4 as uuidv4 } from 'uuid';
+import { SessionService } from './session.service';
+import { RedisService } from '@modules/redis/services/redis.service';
 
 @Injectable()
 export default class AuthenticationService {
@@ -15,8 +15,8 @@ export default class AuthenticationService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(UserSession)
-    private readonly userSessionRepository: Repository<UserSession>,
+    private readonly sessionService: SessionService,
+    private readonly redisService: RedisService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -43,30 +43,24 @@ export default class AuthenticationService {
         user = await this.userRepository.save(user);
       }
 
-      // Create refresh token
-      const refreshToken = uuidv4();
-      const expiresAt = new Date();
-      expiresAt.setDate(expiresAt.getDate() + 7); // 7 days
+      const { rawToken, sessionId, hashedToken, expiresAt } = await this.sessionService.create(user);
 
-      await this.userSessionRepository.save({
-        user_id: user.id,
-        refresh_token: refreshToken,
-        expires_at: expiresAt,
-        is_revoked: false,
-      });
+      const refreshExpirySeconds = Math.max(Math.floor((expiresAt.getTime() - Date.now()) / 1000), 1);
+      await this.redisService.set(`refresh:${sessionId}`, hashedToken, refreshExpirySeconds);
 
       // Create JWT access token
       const accessToken = this.jwtService.sign({
         sub: user.id,
         email: user.email,
         username: user.full_name,
+        sid: sessionId,
       });
 
       return {
         status_code: HttpStatus.OK,
         message: 'OAuth login successful',
         access_token: accessToken,
-        refresh_token: refreshToken,
+        refresh_token: rawToken,
         data: {
           user: {
             id: user.id,
