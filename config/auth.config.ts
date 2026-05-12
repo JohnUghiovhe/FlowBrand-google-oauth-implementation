@@ -1,0 +1,21 @@
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('auth', () => ({
+  jwtSecret: process.env.JWT_SECRET || 'your-secret-key',
+  jwtRefreshSecret: process.env.JWT_REFRESH_SECRET || 'your-refresh-secret-key',
+  jwtExpiry: process.env.JWT_EXPIRY_TIMEFRAME || '24h',
+  jwtRefreshExpiry: process.env.JWT_REFRESH_EXPIRY_TIMEFRAME || '7d',
+  google: {
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    callbackURL: process.env.GOOGLE_REDIRECT_URI,
+  },
+  redis: {
+    host: process.env.REDIS_HOST || 'localhost',
+    port: process.env.REDIS_PORT || 6379,
+    password: process.env.REDIS_PASSWORD,
+    username: process.env.REDIS_USERNAME,
+  },
+  // Base URL to redirect users to after OAuth login (frontend application)
+  frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
+}));

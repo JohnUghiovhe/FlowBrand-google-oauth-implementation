@@ -1,4 +1,38 @@
-.env
+# Dependencies
 node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.development.local
+
+# Build
 dist
+build
+*.js
+*.js.map
+!jest.config.js
+!nest-cli.json
+
+# Test
 coverage
+.nyc_output
+*.lcov
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Misc
+logs
+*.log
+.cache
+.parcel-cache

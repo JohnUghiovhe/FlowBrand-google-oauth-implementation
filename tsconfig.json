@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2021",
+    "lib": ["ES2021"],
+    "outDir": "./dist",
+    "rootDir": "./",
+    "strict": true,
+    "ignoreDeprecations": "5.0",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./",
+    "paths": {
+      "@config/*": ["config/*"],
+      "@database/*": ["src/database/*"],
+      "@entities/*": ["src/entities/*"],
+      "@guards/*": ["src/guards/*"],
+      "@modules/*": ["src/modules/*"],
+      "@shared/*": ["src/shared/*"],
+      "@strategies/*": ["src/modules/strategies/*"]
+    }
+  },
+  "include": ["src/**/*", "config/**/*"],
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+}

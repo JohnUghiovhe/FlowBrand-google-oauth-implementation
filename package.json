@@ -1,0 +1,97 @@
+{
+  "name": "flowbrand-google-oauth",
+  "version": "1.0.0",
+  "description": "Google OAuth 2.0 Authentication Implementation for FlowBrand",
+  "author": "FlowBrand Team",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "nest build",
+    "start": "node dist/src/main",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "dev": "PROFILE=local ts-node -r dotenv/config src/main",
+    "lint": "eslint \"{src,config}/**/*.ts\" --fix",
+    "format": "prettier --write \"{src,config}/**/*.ts\"",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "typeorm": "typeorm -d dist/src/database/data-source.js"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.4",
+    "@nestjs/core": "^11.0.1",
+    "@nestjs/jwt": "^11.0.2",
+    "@nestjs/passport": "^11.0.5",
+    "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/swagger": "^11.4.2",
+    "@nestjs/typeorm": "^11.0.1",
+    "bcrypt": "^6.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "joi": "^18.2.1",
+    "ioredis": "^5.3.2",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-jwt": "^4.0.1",
+    "pg": "^8.20.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "ts-node-dev": "^2.0.0",
+    "typeorm": "^0.3.29",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.0",
+    "@nestjs/schematics": "^11.0.0",
+    "@nestjs/testing": "^11.0.1",
+    "@types/bcrypt": "^6.0.0",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.0",
+    "@types/passport-google-oauth20": "^2.0.17",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.2",
+    "jest": "^30.0.0",
+    "prettier": "^3.4.2",
+    "ts-jest": "^29.2.5",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@config/(.*)$": "<rootDir>/../config/$1",
+      "^@database/(.*)$": "<rootDir>/database/$1",
+      "^@entities/(.*)$": "<rootDir>/entities/$1",
+      "^@guards/(.*)$": "<rootDir>/guards/$1",
+      "^@modules/(.*)$": "<rootDir>/modules/$1",
+      "^@shared/(.*)$": "<rootDir>/shared/$1",
+      "^@strategies/(.*)$": "<rootDir>/modules/strategies/$1"
+    }
+  }
+}
