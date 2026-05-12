@@ -55,7 +55,7 @@ export default class RegistrationController {
     } catch (err: unknown) {
       const frontend = authConfig().frontendUrl || '';
       const isCustom = err instanceof CustomHttpException;
-      const safeMessage = isCustom ? (err as any).message : 'OAuth login failed';
+      const safeMessage = isCustom && err instanceof Error ? err.message : 'OAuth login failed';
 
       const errorParam = isCustom ? encodeURIComponent(String(safeMessage)) : 'oauth_failed';
       const errorTarget = frontend
