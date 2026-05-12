@@ -37,7 +37,7 @@ export default class AuthenticationService {
           avatar_url: payload.avatar_url,
           auth_provider: payload.provider,
           provider_user_id: payload.providerId,
-          is_verified: true, // OAuth users are auto-verified
+          is_verified: false, // Per RFC: do NOT auto-verify OAuth-created accounts in this release
           password: null, // OAuth users don't have passwords
         });
         user = await this.userRepository.save(user);

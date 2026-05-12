@@ -16,8 +16,15 @@ export default class RegistrationController {
   @skipAuth()
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  @ApiOperation({ summary: 'Initiate Google OAuth login' })
-  @ApiResponse({ status: HttpStatus.FOUND, description: 'Redirects to Google consent screen' })
+  @ApiOperation({
+    summary: 'Initiate Google OAuth login',
+    description:
+      'Redirects user to Google consent screen. User grants permission, then Google redirects to callback endpoint. This is the entry point for OAuth login.',
+  })
+  @ApiResponse({
+    status: 302,
+    description: 'Redirects to Google consent screen (googleapis.com)',
+  })
   async googleAuth(): Promise<void> {
     // Passport handles the redirect to Google
   }
@@ -25,9 +32,23 @@ export default class RegistrationController {
   @skipAuth()
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  @ApiOperation({ summary: 'Google OAuth callback handler' })
-  @ApiResponse({ status: HttpStatus.FOUND, description: 'Redirects to dashboard on success' })
-  @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'OAuth login failed' })
+  @ApiOperation({
+    summary: 'Google OAuth callback handler',
+    description:
+      'Callback endpoint that Google redirects to after user authentication. Validates auth code, creates/links user, issues JWT access token and refresh token, sets secure cookie, and redirects to dashboard.',
+  })
+  @ApiResponse({
+    status: 302,
+    description: 'Redirects to frontend dashboard on success with access_token cookie set',
+  })
+  @ApiResponse({
+    status: 302,
+    description: 'Redirects to login error page on failure',
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'OAuth login failed',
+  })
   async googleAuthRedirect(
     @Req() req: Request & { user?: GoogleOAuthProfile },
     @Res() res: Response,

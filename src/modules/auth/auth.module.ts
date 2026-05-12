@@ -3,6 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import RegistrationController from './auth.controller';
+import { TestController } from './test.controller';
 import authConfig from '@config/auth.config';
 import AuthenticationService from './auth.service';
 import { UserSession } from './entities/user-session.entity';
@@ -15,7 +16,7 @@ import { RedisModule } from '@modules/redis/redis.module';
 
 const expiry = authConfig().jwtExpiry;
 @Module({
-  controllers: [RegistrationController],
+  controllers: [RegistrationController, TestController],
   providers: [
     AuthenticationService,
     GoogleStrategy,
