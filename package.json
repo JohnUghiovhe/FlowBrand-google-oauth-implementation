@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "start": "node dist/src/main",
+    "start:prod": "node dist/src/main",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "dev": "PROFILE=local ts-node -r dotenv/config src/main",
