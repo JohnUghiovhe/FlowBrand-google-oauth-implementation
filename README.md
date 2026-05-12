@@ -122,9 +122,6 @@ npm run test:cov
 ### Testing and playground
 
 - `GET /api/v1/test/health` - health check
-- `GET /api/v1/test/config-check` - config status
-- `GET /api/v1/test/oauth-endpoints` - list auth endpoints
-- `GET /api/v1/test/auth-code-guide` - token acquisition guide
 - `POST /api/v1/test/oauth-flow-simulation` - instant token simulation
 - `GET /api/v1/test/session-info` - token/session inspection
 
@@ -133,12 +130,10 @@ npm run test:cov
 Swagger UI is available at `http://localhost:3010/api/docs` and in production at `https://<your-railway-domain>/api/docs`.
 
 Local workflow:
-1. Open Swagger UI.
-2. Run `GET /api/v1/test/health` to verify the app is up.
-3. Run `POST /api/v1/test/oauth-flow-simulation` to get an `access_token` and `refresh_token` instantly.
-4. Click the green **Authorize** button.
-5. Paste the access token into the bearer field or use the OAuth2 option for real Google sign-in.
-6. Retry the protected or auth-aware endpoints.
+1. Open Swagger UI at `http://localhost:3010/api/docs`.
+2. Run `POST /api/v1/test/oauth-flow-simulation` to get an `access_token` and `refresh_token` instantly.
+3. Click the green **Authorize** button and paste the token into the bearer field.
+4. Call any endpoint—the token is now attached to all requests.
 
 ## ✅ Authorization Workflows
 

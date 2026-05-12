@@ -5,8 +5,6 @@ yarn-error.log
 pnpm-debug.log
 
 # Environment
-.env
-.env.local
 .env.*.local
 .env.development.local
 
@@ -25,7 +23,6 @@ coverage
 
 # IDE
 .idea
-.vscode
 *.swp
 *.swo
 *~
@@ -36,3 +33,7 @@ logs
 *.log
 .cache
 .parcel-cache
+temp_auto_push.bat
+temp_interactive_push.bat
+branch_structure.json
+config.bat
